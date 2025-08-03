@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/job_description_input_card.dart';
@@ -15,11 +16,24 @@ class _UploadScreenState extends State<UploadScreen> {
   String? _pdfFileName;
   final TextEditingController _jobDescController = TextEditingController();
 
-  void _selectPDF() {
-    // TODO: Add file picker logic here
-    setState(() {
-      _pdfFileName = "MyResume.pdf";
-    });
+  void _selectPDF() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        _pdfFileName = result.files.single.name;
+        // String filePath = result.files.single.path!;
+        // You can now use filePath to send the file to a backend or store locally
+      });
+    } else {
+      // User canceled the picker
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No file selected")),
+      );
+    }
   }
 
   void _customizeResume() {
