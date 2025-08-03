@@ -51,12 +51,13 @@ class _UploadScreenState extends State<UploadScreen> {
 
             const SizedBox(height: 20),
 
-            JobDescriptionInputCard(
-              title: "Job Description Link",
-              hint: "Paste the URL of the job you're applying to",
-              controller: _jobDescController,
-            ),
-            const Spacer(),
+          JobDescriptionInputCard(
+            title: "Job Description",
+            hint: "Write or paste the job description here",
+            controller: _jobDescController,
+            isMultiline: true,
+          ),
+            const SizedBox(height: 170),
             CustomButton(
               text: "Customize My Resume",
               onPressed: _customizeResume,
