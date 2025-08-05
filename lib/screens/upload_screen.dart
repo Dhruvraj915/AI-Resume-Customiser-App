@@ -127,14 +127,14 @@ class _UploadScreenState extends State<UploadScreen> {
           children: [
             const CircularProgressIndicator(color: Colors.deepPurple),
             const SizedBox(height: 16),
-            Text(_forceOffline ? '🔧 Processing offline...' : '🤖 Customizing your resume...'),
+            Text(_forceOffline ? 'Processing offline...' : 'Customizing your resume...'),
             const SizedBox(height: 8),
-            Text(
-              _forceOffline
-                  ? 'Using local enhancement algorithms.'
-                  : 'Trying AI enhancement first, then offline backup.',
-              style: const TextStyle(fontSize: 12, color: Colors.green),
-            ),
+            // Text(
+            //   _forceOffline
+            //       ? 'Using local enhancement algorithms.'
+            //       : 'Trying AI enhancement first, then offline backup.',
+            //   style: const TextStyle(fontSize: 12, color: Colors.green),
+            // ),
           ],
         ),
       ),
@@ -353,26 +353,26 @@ class _UploadScreenState extends State<UploadScreen> {
                 const SizedBox(height: 10),
 
                 // Test Button (you can remove this later)
-                ElevatedButton(
-                  onPressed: () async {
-                    final works = await GeminiResumeService.testConnection();
-                    if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Gemini test: ${works ? '✅ WORKING' : '❌ FAILED'}"),
-                          backgroundColor: works ? Colors.green : Colors.red,
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade200,
-                    foregroundColor: Colors.grey.shade700,
-                    minimumSize: const Size(double.infinity, 45),
-                  ),
-                  child: const Text("🧪 Test Gemini Connection"),
-                ),
+                // ElevatedButton(
+                //   onPressed: () async {
+                //     final works = await GeminiResumeService.testConnection();
+                //     if (mounted) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(
+                //           content: Text("Gemini test: ${works ? '✅ WORKING' : '❌ FAILED'}"),
+                //           backgroundColor: works ? Colors.green : Colors.red,
+                //           duration: const Duration(seconds: 2),
+                //         ),
+                //       );
+                //     }
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Colors.grey.shade200,
+                //     foregroundColor: Colors.grey.shade700,
+                //     minimumSize: const Size(double.infinity, 45),
+                //   ),
+                //   child: const Text("🧪 Test Gemini Connection"),
+                // ),
 
                 const SizedBox(height: 20),
               ],
