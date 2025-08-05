@@ -25,24 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'ResumeAI',
-              style: TextStyle(
-                fontSize: 32,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+          children: [
+            Image.asset(
+              'assets/logo.png',
+              width: 120,
+              height: 120,
+              fit: BoxFit.contain,
             ),
-            SizedBox(height: 10),
-            Text(
-              'Tailored resumes in seconds',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-              ),
-            )
           ],
+
         ),
       ),
     );
