@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'dart:io';
+import '../services/gemini_resume_service.dart';
 import '../services/hybrid_resume_service.dart'; // Use the hybrid service for AI+offline
 import '../widgets/custom_button.dart';
 import '../widgets/job_description_input_card.dart';
@@ -143,6 +144,9 @@ class _UploadScreenState extends State<UploadScreen> {
 
     try {
       print("🚀 Starting resume customization...");
+      print("🔧 Toggle state - Force offline: $_forceOffline");
+      print("📄 Resume length: ${_extractedResumeText!.length} characters");
+      print("💼 Job desc length: ${_jobDescController.text.trim().length} characters");
 
       // Use HybridResumeService: Gemini Pro if available, else offline
       final result = await HybridResumeService.customizeResume(
@@ -152,6 +156,7 @@ class _UploadScreenState extends State<UploadScreen> {
       );
 
       print("🎉 Customization completed: ${result['source']}");
+      print("✅ SUCCESS: Used ${result['source']} service for customization");
 
       if (mounted) Navigator.pop(context);
 
@@ -163,8 +168,8 @@ class _UploadScreenState extends State<UploadScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("$sourceEmoji Resume customized using ${source.toUpperCase()} service!"),
-            backgroundColor: Colors.green,
-            duration: const Duration(seconds: 2),
+            backgroundColor: source == 'gemini' ? Colors.green : Colors.orange,
+            duration: const Duration(seconds: 3),
           ),
         );
 
@@ -175,13 +180,14 @@ class _UploadScreenState extends State<UploadScreen> {
               updatedResume: result['updatedResume'] ?? '',
               originalResume: _extractedResumeText!,
               matchScore: result['matchScore'] ?? 70.0,
-              suggestions: List<String>.from(result['suggestions'] ?? []),
+              suggestions: List<String>.from(result['suggestions'] ?? result['improvements'] ?? []),
             ),
           ),
         );
       }
     } catch (e) {
       print("💥 Error in customization: $e");
+      print("💥 Error type: ${e.runtimeType}");
 
       if (mounted) Navigator.pop(context);
 
@@ -213,7 +219,7 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Update My Resume"),
+        title: const Text("Customize My Resume"),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
       ),
@@ -325,10 +331,38 @@ class _UploadScreenState extends State<UploadScreen> {
                   ),
                 ),
                 const Spacer(),
+
+                // Main Customize Resume Button
                 CustomButton(
-                  text: _isProcessing ? "Processing..." : "Update Resume",
-                  onPressed: _isProcessing ? () {} : _updateResume, // Empty function when processing
+                  text: _isProcessing ? "Processing..." : "Customize Resume",
+                  onPressed: _isProcessing ? () {} : _updateResume,
                 ),
+
+                const SizedBox(height: 10),
+
+                // Test Button (you can remove this later)
+
+                // ElevatedButton(
+                //   onPressed: () async {
+                //     final works = await GeminiResumeService.testConnection();
+                //     if (mounted) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(
+                //           content: Text("Gemini test: ${works ? '✅ WORKING' : '❌ FAILED'}"),
+                //           backgroundColor: works ? Colors.green : Colors.red,
+                //           duration: const Duration(seconds: 2),
+                //         ),
+                //       );
+                //     }
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Colors.grey.shade200,
+                //     foregroundColor: Colors.grey.shade700,
+                //     minimumSize: const Size(double.infinity, 45),
+                //   ),
+                //   child: const Text("🧪 Test Gemini Connection"),
+                // ),
+
                 const SizedBox(height: 20),
               ],
             ),
