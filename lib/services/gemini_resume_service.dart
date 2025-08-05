@@ -15,15 +15,24 @@ class GeminiResumeService {
     print("🌐 Calling URL: $_baseUrl");
 
     final prompt = '''
-Please customize this resume for the following job description. Make it more relevant and tailored:
+You are a professional resume optimizer. Your task is to enhance the existing resume by strategically adding relevant keywords from the job description to appropriate sections WITHOUT changing the overall structure or adding unnecessary content.
+
+INSTRUCTIONS:
+1. PRESERVE the original resume format and structure
+2. ONLY add relevant keywords from the job description to existing sections
+3. DO NOT add summaries, objectives, or new sections
+4. DO NOT change personal information, contact details, or dates
+5. Focus on enhancing: Skills, Experience descriptions, and Technical competencies
+6. Keep all additions natural and contextually appropriate
+7. Maintain the professional tone and formatting
 
 JOB DESCRIPTION:
 $jobDescription
 
-RESUME TO CUSTOMIZE:
+RESUME TO ENHANCE:
 $resumeText
 
-Please provide an improved version that highlights relevant skills and experience for this specific job.
+OUTPUT: Return the enhanced resume with strategically placed keywords while maintaining the original structure and authenticity.
 ''';
 
     try {

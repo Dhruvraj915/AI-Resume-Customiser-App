@@ -222,6 +222,73 @@ class _UploadScreenState extends State<UploadScreen> {
         title: const Text("Customize My Resume"),
         backgroundColor: Colors.deepPurple,
         foregroundColor: Colors.white,
+        actions: [
+          // Minimal AI/Offline toggle in top right
+          Container(
+            margin: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // AI Button
+                GestureDetector(
+                  onTap: () => setState(() => _forceOffline = false),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: !_forceOffline ? Colors.white : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: !_forceOffline ? [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ] : null,
+                    ),
+                    child: Text(
+                      "AI",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: !_forceOffline ? Colors.deepPurple : Colors.white70,
+                      ),
+                    ),
+                  ),
+                ),
+                // Offline Button
+                GestureDetector(
+                  onTap: () => setState(() => _forceOffline = true),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: _forceOffline ? Colors.white : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: _forceOffline ? [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ] : null,
+                    ),
+                    child: Text(
+                      "Offline",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: _forceOffline ? Colors.deepPurple : Colors.white70,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -275,61 +342,6 @@ class _UploadScreenState extends State<UploadScreen> {
                   isMultiline: true,
                 ),
                 const SizedBox(height: 20),
-                // Offline Mode Toggle
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: _forceOffline ? Colors.orange.shade50 : Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: _forceOffline ? Colors.orange.shade200 : Colors.blue.shade200,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        _forceOffline ? Icons.offline_bolt : Icons.smart_toy,
-                        color: _forceOffline ? Colors.orange.shade600 : Colors.blue.shade600,
-                        size: 24,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _forceOffline ? "🔧 Offline Mode" : "🤖 AI + Offline Mode",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: _forceOffline ? Colors.orange.shade700 : Colors.blue.shade700,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              _forceOffline
-                                  ? "Using local processing only"
-                                  : "Try AI enhancement first, fallback to offline",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: _forceOffline ? Colors.orange.shade600 : Colors.blue.shade600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Switch(
-                        value: _forceOffline,
-                        onChanged: (value) {
-                          setState(() {
-                            _forceOffline = value;
-                          });
-                        },
-                        activeColor: Colors.orange,
-                        inactiveThumbColor: Colors.blue,
-                      ),
-                    ],
-                  ),
-                ),
                 const Spacer(),
 
                 // Main Customize Resume Button
@@ -341,27 +353,26 @@ class _UploadScreenState extends State<UploadScreen> {
                 const SizedBox(height: 10),
 
                 // Test Button (you can remove this later)
-
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     final works = await GeminiResumeService.testConnection();
-                //     if (mounted) {
-                //       ScaffoldMessenger.of(context).showSnackBar(
-                //         SnackBar(
-                //           content: Text("Gemini test: ${works ? '✅ WORKING' : '❌ FAILED'}"),
-                //           backgroundColor: works ? Colors.green : Colors.red,
-                //           duration: const Duration(seconds: 2),
-                //         ),
-                //       );
-                //     }
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: Colors.grey.shade200,
-                //     foregroundColor: Colors.grey.shade700,
-                //     minimumSize: const Size(double.infinity, 45),
-                //   ),
-                //   child: const Text("🧪 Test Gemini Connection"),
-                // ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final works = await GeminiResumeService.testConnection();
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Gemini test: ${works ? '✅ WORKING' : '❌ FAILED'}"),
+                          backgroundColor: works ? Colors.green : Colors.red,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade200,
+                    foregroundColor: Colors.grey.shade700,
+                    minimumSize: const Size(double.infinity, 45),
+                  ),
+                  child: const Text("🧪 Test Gemini Connection"),
+                ),
 
                 const SizedBox(height: 20),
               ],
