@@ -1,4 +1,4 @@
-# Curriq – Your AI Resume Customizer
+# Curriq – AI Resume Customizer
 
 **Curriq** is a smart and simple app that helps you customize your resume based on any job description — using the power of AI.
 
