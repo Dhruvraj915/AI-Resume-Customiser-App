@@ -35,7 +35,7 @@ Instead of rewriting your resume every time you apply somewhere, just upload you
    flutter pub get
    ```
 
-3. Add your API key in the code (`lib/services/api_service.dart`)
+3. Add your API key in the code (`lib/services/gemini_resume_service.dart`)
 
 4. Run it:
    ```bash
