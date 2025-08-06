@@ -334,8 +334,8 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("AI Resume Customizer"),
-        backgroundColor: Colors.deepPurple,
+        title: const Text("Curriq"),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         actions: [
           IconButton(

@@ -167,7 +167,7 @@ class _UploadScreenState extends State<UploadScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("$sourceEmoji Resume customized using ${source.toUpperCase()} service!"),
+            content: Text("Resume customized using ${source.toUpperCase()} service!"),
             backgroundColor: source == 'gemini' ? Colors.green : Colors.orange,
             duration: const Duration(seconds: 3),
           ),
@@ -219,8 +219,20 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Customize My Resume"),
-        backgroundColor: Colors.deepPurple,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/logo1.png', // Path to your logo
+              height: 35,        // Adjust height as needed
+              width: 35,         // Adjust width as needed
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 2), // Space between logo and text
+            const Text("Curriq"),
+          ],
+        ),
+        backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         actions: [
           // Minimal AI/Offline toggle in top right
